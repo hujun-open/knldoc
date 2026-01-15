@@ -5,9 +5,7 @@ bookToc: false
 bookFlatSection: true
 ---
 
-<div align="center" style="margin-bottom: 2rem;">
-  <img src="/logo.png" alt="Project X Logo" width="160px">
-</div>
+{{< figure src="logo.png" alt="KNL Logo" width="160px" >}}
 
 # KubeNetLab
 
