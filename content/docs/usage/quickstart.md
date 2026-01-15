@@ -35,11 +35,11 @@ This quickstart guide walks through steps of creating a simple lab, introduces s
     - nodes: define the configuration for each node in the topology, it is a map: key is the node name while value is the type specific configuration. This YAML specifies a node with name `srl-2` and its type is `srl`, along with `image` and `chassis` specification.
       - node name **must** have the prefix: `<nodeType>-`, like `srl-1` means it is a SRLinux node; see list of supported node types in [Node Types]({{< relref "docs/nodes/" >}}) 
       - the actual configruation depends on node type, see corresponding type guide under [Node Types]({{< relref "docs/nodes/" >}}) section.
-      - certain per node configuration are optional like `memory` in SRLinux case, the default value are specified in `KNLConfig` CR.
+      - certain per node configuration are optional like `memory` in SRLinux case, the default value are specified in [`KNLConfig` CR]({{< relref "docs/usage/knlconfig/" >}}).
 
       - > [!NOTE]
         > **Note**  
-        > node `srl-1` is not defined in `nodes` section, which means it will use default configuration provided by `KNLConfig` CR.
+        > node `srl-1` is not defined in `nodes` section, which means it will use default configuration provided by [`KNLConfig` CR]({{< relref "docs/usage/knlconfig/" >}}).
     - links: defines how nodes are connected, it is a map: key is a link name while value is the specification of the link, `nodes` is a mandatory part of it, which is a list of node names connects to the same L2 network of the link.
       
 

@@ -7,7 +7,7 @@ weight: 20
 ---
 
 # KNL Configuration 
-KNL's configuration is a CR `KNLConfig` with name `knlcfg` in `knl-system` namespace, it must be created before creating KNL operator; check full list of spec [here]({{< relref "docs/api/#knlconfigspec" >}}).
+KNL's configuration is a CR `KNLConfig` with name `knlcfg` in `knl-system` namespace, it must be created before creating any lab; check full list of spec [here]({{< relref "docs/api/#knlconfigspec" >}}).
 
 
 
