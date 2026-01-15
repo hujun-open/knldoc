@@ -1,0 +1,13 @@
+baseURL = 'https://example.org/'
+languageCode = 'en-us'
+title = 'KubeNetLab Docs'
+
+[markup.goldmark.renderer]
+unsafe = true
+
+[caches]
+  [caches.images]
+    dir = ':cacheDir/images'
+
+[params]
+  BookSearch = true
