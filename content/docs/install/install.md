@@ -45,7 +45,7 @@ weight: 2
 1. ## install knl via manifest
     install latest version
     ```bash
-    kubectl apply -f kubectl apply -f https://github.com/hujun-open/k8slan/releases/latest/download/all.yaml
+    kubectl apply -f https://github.com/hujun-open/k8slan/releases/latest/download/all.yaml
     ```
 1. ## update `knl-sftp` secret (optional)
     `knl-sftp` secret in `knl-system` namespace holds the login crendetial for KNL SFTP server, by default both username and password is `knlftp`; 
