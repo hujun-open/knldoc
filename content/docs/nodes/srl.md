@@ -103,7 +103,12 @@ On each SRLinux node, the files include startup `config.json` under `/etc/opt/sr
 Node configuraion also contains cpu and memory requests for the pod, which would be used as input for k8s to schedule the pod; minimal 4GB memory is required (which is also the default value), certain model requires more memory like 8GB. 
 CPU request is optional.
 
-> [!NOTE]
-> **Note**  
-> If the pod keep crashing/restarting, one possible reason is not having enough memory, increasing request memory in the node configuration could fix it.
 
+
+## Troubleshooting 
+
+If the SRL pod keep restarting:
+1. check if the license is valid and not expired
+1. try increasing request memory in the node configuration
+
+    
