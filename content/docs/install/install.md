@@ -57,7 +57,7 @@ weight: 2
 1. ## download `knlcli`
     `knlcli` is the command line tool to manage KNL lab. download the latest version and install it to `/usr/local/bin/`:
     ```bash
-     curl -L https://github.com/hujun-open/knl/releases/latest/download/knlcli-linux-x86-64 -o knlcli
+     curl -L https://github.com/hujun-open/knlcli/releases/latest/download/knlcli-linux-x86-64 -o knlcli
      sudo install knlcli /usr/local/bin/
 
     ```

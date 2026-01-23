@@ -22,6 +22,7 @@ Available Commands:
   rm          remove a lab
   shell       connect to the specified node in the specified lab
   show        show existing Lab info
+  topo        generate lab topology in D2 format
 
 Flags:
   -h, --help              help for knlcli
@@ -85,3 +86,29 @@ example-lab:
   > [!NOTE]
   > **Note**  
   > Removing a lab won't remove the perisisten storage of nodes in the lab.
+
+## Show lab topology
+`knlcli topo <lab>` displays lab topology in following formats:
+1. visualization render in ASCII format (this requires [installation of D2 command line](https://d2lang.com/tour/install/)): `knlcli topo <lab>`
+2. [D2](https://d2lang.com/) file: `knlcli topo <lab> --render=false`
+  ```bash
+  user@svr-1:~$ knlcli topo example-lab
+      ┌───────┐
+      │vsim-1 │
+      │       │
+      └───────┘
+          │  │
+          │  └─┐
+          │    │
+   ┌──────┐    │
+   │srl-1 │    │
+   │      │    │
+   └──────┘    │
+          │    │
+          │  ┌─┘
+          │  │
+      ┌────────┐
+      │srsim-1 │
+      │        │
+      └────────┘
+  ```

@@ -32,14 +32,20 @@ kind: Lab
 metadata:
     name: example-lab
     namespace: knl-system
-spec:           
+spec:
   links:
-    link1: 
+    link1:
+      nodes:
+      - node: vsim-1
+      - node: srl-1
+    link2:
+      nodes:
+      - node: srl-1
+      - node: srsim-1
+    link3:
       nodes:
       - node: srsim-1
       - node: vsim-1
-
-
 ```
 
 
@@ -47,15 +53,44 @@ Use KNL command line tool `knlcli` to check the created Lab
 ```bash
 user@svr-1:~$ knlcli show
 example-lab:
-   Node      Type    Chassis   Pods                                       Worker/PodIP
-   srsim-1   SRSIM   SR-7      example-lab-srsim-1                        worker-1/10.244.2.92
-   vsim-1    VSIM    SR-7      virt-launcher-example-lab-vsim-1-1-cjfn6   worker-2/10.244.0.95
-                               virt-launcher-example-lab-vsim-1-a-lvhqd   worker-2/10.244.0.115
+   Node      Type    Chassis                           Pods                                       Worker/PodIP
+   srl-1     SRL     ixr-d3l                           example-lab-srl-1                          worker-2/10.244.0.137
+   srsim-1   SRSIM   SR-7                              example-lab-srsim-1                        worker-1/10.244.3.77
+   vsim-1    VSIM    SR-7                              virt-launcher-example-lab-vsim-1-1-nprdm   worker-3/10.244.2.91
+                                                       virt-launcher-example-lab-vsim-1-a-vqjqq   worker-3/10.244.2.90
    Link      Nodes
-   link1     srsim-1
+   link1     vsim-1
+             srl-1
+   link2     srl-1
+             srsim-1
+   link3     srsim-1
              vsim-1
-
 ```
   > [!NOTE]
   > **Note**  
-  > Two lab nodes(`srsim-1` and `vsim-1`) run on two different servers (`worker-1` and `worker-2`), `link1` spans across these two servers.
+  > Three lab nodes(`srsim-1`, `vsim-1` and `srl-1`) run on three different servers (`worker-1` to `worker-3`), and 3 links span across all servers.
+
+  Use `knlcli topo` show the topology in visualized format:
+
+  ```bash
+  user@svr-1:~$ knlcli topo example-lab
+      ┌───────┐
+      │vsim-1 │
+      │       │
+      └───────┘
+          │  │
+          │  └─┐
+          │    │
+   ┌──────┐    │
+   │srl-1 │    │
+   │      │    │
+   └──────┘    │
+          │    │
+          │  ┌─┘
+          │  │
+      ┌────────┐
+      │srsim-1 │
+      │        │
+      └────────┘
+
+  ```
