@@ -51,15 +51,25 @@ source <(knlcli completion bash) # activate the completion for current shell ses
 `knlcli create <labdef.yaml>`, this is equivalent to `kubectl apply -f <labdef.yaml>`.
 
 ## List existing labs
-`knlcli show`
+`knlcli show` by default list name of existing labs:
+```bash
+user@svr-1:~$ knlcli show
+example-lab
+srl-basic
+srsim  
+```
+`knlcli show <labname> -v` show lab details:
+
 
 ```bash
+user@svr-1:~$ knlcli show example-lab -v
 example-lab:
    Node      Type    Chassis   Pods                                       Worker/PodIP
    srsim-1   SRSIM   SR-7      example-lab-srsim-1                        worker-1/10.244.2.92
    vsim-1    VSIM    SR-7      virt-launcher-example-lab-vsim-1-1-cjfn6   worker-2/10.244.0.95
                                virt-launcher-example-lab-vsim-1-a-lvhqd   worker-2/10.244.0.115
-   Link      Nodes
+   
+   Link      Nodes    Port
    link1     srsim-1
              vsim-1
 ```

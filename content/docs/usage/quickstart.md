@@ -56,12 +56,13 @@ This quickstart guide walks through steps of creating a simple lab, introduces s
     ```
 1. ## check the created lab
     ```bash
-    user@svr-1:~$ knlcli show
+    user@svr-1:~$ knlcli show -v
     quickstart:
       Node    Type   Chassis      Pods               Worker/PodIP
       srl-1   SRL    ixr-h5-32d   quickstart-srl-1   kind-worker/10.244.1.21
       srl-2   SRL    ixr-d2l      quickstart-srl-2   kind-worker/10.244.1.22
-      Link    Nodes
+
+      Link    Nodes   Port
       link1   srl-1
               srl-2
     ```

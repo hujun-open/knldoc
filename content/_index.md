@@ -51,14 +51,14 @@ spec:
 
 Use KNL command line tool `knlcli` to check the created Lab
 ```bash
-user@svr-1:~$ knlcli show
+user@svr-1:~$ knlcli show -v
 example-lab:
    Node      Type    Chassis                           Pods                                       Worker/PodIP
    srl-1     SRL     ixr-d3l                           example-lab-srl-1                          worker-2/10.244.0.137
    srsim-1   SRSIM   SR-7                              example-lab-srsim-1                        worker-1/10.244.3.77
    vsim-1    VSIM    SR-7                              virt-launcher-example-lab-vsim-1-1-nprdm   worker-3/10.244.2.91
                                                        virt-launcher-example-lab-vsim-1-a-vqjqq   worker-3/10.244.2.90
-   Link      Nodes
+   Link      Nodes    Port
    link1     vsim-1
              srl-1
    link2     srl-1
