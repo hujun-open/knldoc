@@ -16,6 +16,7 @@ Usage:
 
 Available Commands:
   completion  Generate the autocompletion script for the specified shell
+  config      save/load configuration
   console     connect to the console of specified node in the specified lab
   create      create a lab via the specified YAML file
   help        Help about any command
@@ -96,6 +97,9 @@ example-lab:
   > [!NOTE]
   > **Note**  
   > Removing a lab won't remove the perisisten storage of nodes in the lab.
+
+## Configuration management
+see [config management]({{< relref "docs/usage/cfgmgmt/" >}})
 
 ## Show lab topology
 `knlcli topo <lab>` displays lab topology in following formats:

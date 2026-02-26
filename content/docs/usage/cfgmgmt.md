@@ -13,7 +13,7 @@ weight: 30
 
 > [!NOTE]
 > **Note**  
-> For SROS system, MD-CLI and SSH must be enabled 
+> For SROS system, SSH must be enabled and MD-CLI must be the default CLI
 
 ## Save
 Use command `knlcli config save <Lab> [flags]` to save configuration all supporting nodes in the specified lab into a folder, by default, the folder is the `./<lab-name>`, each node's configuration is saved as `<nodeName>.cfg`. 
