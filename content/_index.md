@@ -23,6 +23,7 @@ KNL has following key features:
     - Nokia SRLinux
     - General Virtual Machine
     - General pod
+4. Supports saving/loading configuration for certain CNF/VNF
 
 Follow YAML defines a simple example-lab contains a Nokia SR-SIM and a Nokia vSIM, with default chassis configuration, connects to each other via a virtual link `link1`.
 
