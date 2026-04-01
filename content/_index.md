@@ -23,7 +23,7 @@ KNL has following key features:
     - Nokia SRLinux
     - General Virtual Machine
     - General pod
-4. Supports saving/loading configuration for certain CNF/VNF
+4. Supports saving/loading lab with CNF/VNF configuration
 
 Follow YAML defines a simple example-lab contains a Nokia SR-SIM and a Nokia vSIM, with default chassis configuration, connects to each other via a virtual link `link1`.
 
@@ -52,20 +52,21 @@ spec:
 
 Use KNL command line tool `knlcli` to check the created Lab
 ```bash
-user@svr-1:~$ knlcli show -v
 example-lab:
-   Node      Type    Chassis                           Pods                                       Worker/PodIP
-   srl-1     SRL     ixr-d3l                           example-lab-srl-1                          worker-2/10.244.0.137
-   srsim-1   SRSIM   SR-7                              example-lab-srsim-1                        worker-1/10.244.3.77
-   vsim-1    VSIM    SR-7                              virt-launcher-example-lab-vsim-1-1-nprdm   worker-3/10.244.2.91
-                                                       virt-launcher-example-lab-vsim-1-a-vqjqq   worker-3/10.244.2.90
-   Link      Nodes    Port
-   link1     vsim-1
-             srl-1
-   link2     srl-1
-             srsim-1
-   link3     srsim-1
-             vsim-1
+   Node      Type    Chassis   Pods                                       PodReady   Worker/PodIP
+   srl-1     SRL     ixr-d3l   example-lab-srl-1                          True       worker-1/10.244.2.55
+   srsim-1   SRSIM   SR-7      example-lab-srsim-1                        True       worker-2/10.244.2.54
+   vsim-1    VSIM    SR-7      virt-launcher-example-lab-vsim-1-1-c2gt6   True       worker-3/10.244.2.59
+                               virt-launcher-example-lab-vsim-1-a-mdcrq   True       worker-3/10.244.2.53
+
+   Link    Nodes     Port
+   link1   vsim-1    1
+           srl-1
+   link2   srl-1
+           srsim-1
+   link3   srsim-1
+           vsim-1    1
+
 ```
   > [!NOTE]
   > **Note**  

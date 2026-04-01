@@ -98,8 +98,8 @@ example-lab:
   > **Note**  
   > Removing a lab won't remove the perisisten storage of nodes in the lab.
 
-## Configuration management
-see [config management]({{< relref "docs/usage/cfgmgmt/" >}})
+## Lab save/load
+see [Lab save/load]({{< relref "docs/usage/cfgmgmt/" >}})
 
 ## Show lab topology
 `knlcli topo <lab>` displays lab topology in following formats:

@@ -56,57 +56,76 @@ This quickstart guide walks through steps of creating a simple lab, introduces s
     ```
 1. ## check the created lab
     ```bash
+    user@svr-1:~$ knlcli show
+    Lab            Ready   Msg
+    quickstart     true    all nodes are ready
+
     user@svr-1:~$ knlcli show -v
     quickstart:
-      Node    Type   Chassis      Pods               Worker/PodIP
-      srl-1   SRL    ixr-h5-32d   quickstart-srl-1   kind-worker/10.244.1.21
-      srl-2   SRL    ixr-d2l      quickstart-srl-2   kind-worker/10.244.1.22
+      Node    Type   Chassis   Pods               PodReady   Worker/PodIP
+      srl-1   SRL    ixr-d3l   quickstart-srl-1   True       worker-2/10.244.0.86
+      srl-2   SRL    ixr-d2l   quickstart-srl-2   True       worker-1/10.244.1.125
 
       Link    Nodes   Port
       link1   srl-1
               srl-2
+
     ```
     or use `kubectl`
     ```bash
+    kubectl -n knl-system get labs
+    NAME           READY   MSG
+    quickstart     True    all nodes are ready
+
     user@svr-1:~$  kubectl -n knl-system get lab quickstart -o yaml
-    apiVersion: v1
-    items:
-    - apiVersion: knl.kubenetlab.net/v1beta1
-      kind: Lab
-      metadata:
-        annotations:
-          kubectl.kubernetes.io/last-applied-configuration: |
-            {"apiVersion":"knl.kubenetlab.net/v1beta1","kind":"Lab","metadata":{"annotations":{},"name":"quickstart","namespace":"knl-system"},"spec":{"links":{"link1":{"nodes":[{"node":"srl-1"},{"node":"srl-2"}]}},"nodes":{"srl-2":{"srl":{"chassis":"ixr-d2l","image":"ghcr.io/nokia/srlinux:25.10.1"}}}}}
-        creationTimestamp: "2025-12-31T17:57:59Z"
-        finalizers:
-        - lab.kubenetlab.net/finalizer
-        generation: 1
-        name: quickstart
-        namespace: knl-system
-        resourceVersion: "112671"
-        uid: cc4d09dc-bc96-48db-a738-af6cfdeaa5c3
-      spec:
-        links:
-          link1:
-            nodes:
-            - mac: "12:20:22:00:00:01"
-              node: srl-1
-            - mac: "12:20:22:00:00:02"
-              node: srl-2
-        nodes:
-          srl-1:
-            srl:
-              chassis: ixr-h5-32d
-              image: ghcr.io/nokia/srlinux:25.10
-              memory: 4Gi
-          srl-2:
-            srl:
-              chassis: ixr-d2l
-              image: ghcr.io/nokia/srlinux:25.10.1
-              memory: 4Gi
-    kind: List
-    metadata:
-      resourceVersion: ""
+    kubectl -n knl-system describe labs.knl.kubenetlab.net quickstart
+    Name:         quickstart
+    Namespace:    knl-system
+    Labels:       <none>
+    Annotations:  <none>
+    API Version:  knl.kubenetlab.net/v1beta1
+    Kind:         Lab
+    Metadata:
+      Creation Timestamp:  2026-03-29T19:09:22Z
+      Finalizers:
+        lab.kubenetlab.net/finalizer
+      Generation:        1
+      Resource Version:  154113385
+      UID:               75e499ac-55a2-46ca-9600-6120e71f9d06
+    Spec:
+      Links:
+        link1:
+          Nodes:
+            Mac:   12:20:22:00:00:01
+            Node:  srl-1
+            Mac:   12:20:22:00:00:02
+            Node:  srl-2
+      Nodes:
+        srl-1:
+          Srl:
+            Chassis:  ixr-d3l
+            Image:    ghcr.io/nokia/srlinux:26.3
+            License:  srl26.3
+            Memory:   4Gi
+        srl-2:
+          Srl:
+            Chassis:  ixr-d2l
+            Image:    ghcr.io/nokia/srlinux:25.10.1
+            License:  srl26.3
+            Memory:   4Gi
+    Status:
+      Conditions:
+        Last Transition Time:  2026-03-29T19:09:23Z
+        Message:               lab ensured
+        Reason:                ensured
+        Status:                True
+        Type:                  Deployed
+        Last Transition Time:  2026-03-29T19:11:02Z
+        Message:               all nodes are ready
+        Reason:                running
+        Status:                True
+        Type:                  Ready
+    Events:                    <none>
 
     ```
     > [!NOTE]
@@ -118,9 +137,9 @@ This quickstart guide walks through steps of creating a simple lab, introduces s
     ```bash
 
     user@svr-1:~$ knlcli shell quickstart srl-1
-    connecting to srl-1 at 10.244.1.21 username admin
-    Warning: Permanently added '10.244.1.21' (ED25519) to the list of known hosts.
-    (admin@10.244.1.21) Password:
+    connecting to srl-1 at 10.244.0.86 username admin
+    Warning: Permanently added '10.244.0.86' (ED25519) to the list of known hosts.
+    (admin@10.244.0.86) Password:
     Loading environment configuration file(s): ['/etc/opt/srlinux/srlinux.rc']
     Welcome to the Nokia SR Linux CLI.
 
@@ -129,7 +148,7 @@ This quickstart guide walks through steps of creating a simple lab, introduces s
     ```
     or use `ssh` command with corresponding pod IP directly:
     ```bash
-    ssh admin@10.244.1.21
+    ssh admin@10.244.0.86
     ```
 1. ## remove the lab
     use `knlcli`
