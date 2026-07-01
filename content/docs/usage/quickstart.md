@@ -146,6 +146,7 @@ This quickstart guide walks through steps of creating a simple lab, introduces s
     --{ [FACTORY] + running }--[  ]--
     A:admin@quickstart-srl-1#
     ```
+    For a non-interactive check, use `knlcli exec quickstart srl-1 "show version"`.
     or use `ssh` command with corresponding pod IP directly:
     ```bash
     ssh admin@10.244.0.86

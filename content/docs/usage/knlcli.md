@@ -19,6 +19,7 @@ Available Commands:
   config      save/load configuration
   console     connect to the console of specified node in the specified lab
   create      create a lab via the specified YAML file
+  exec        run a command on the specified node and print output
   help        Help about any command
   rm          remove a lab
   shell       connect to the specified node in the specified lab
@@ -81,6 +82,32 @@ example-lab:
 - vSIM, VSR, MAG-c, SR-SIM, SRLinux: this command creates a SSH session to the control card (e.g. CPM).
 - General VM: this command creates a SSH sesion to the VM
 - General pod: this command command trys to execute bash inside the pod
+
+## Run a command on a lab node
+
+`knlcli exec <lab> <node> "<cmd>" [--username <user>] [--passwd <pass>]`
+
+Run a single command on the specified node, print its output, and exit. Unlike `shell`, this does not open an interactive session. Quote the command when it contains spaces.
+
+| Node type | Transport | CLI / shell | Default credentials |
+|-----------|-----------|-------------|---------------------|
+| vSIM, VSRI | SSH to CPM | MD-CLI | `admin` / `admin` |
+| MAG-c | SSH to CPM | Classic CLI | `admin` / `admin` |
+| SR-SIM | SSH to pod | MD-CLI | `admin` / `admin` |
+| SRLinux | SSH | SRLinux CLI | `admin` / `NokiaSrl1!` |
+| General VM | SSH | OS shell | from VM spec (`user` / `password`) |
+| General pod | `kubectl exec` | `sh -c` | none |
+
+- `--username` and `--passwd` override the defaults above (same flags as `shell`).
+- General pod requires `kubectl` on the client machine (same dependency as `console` for pod types).
+
+```bash
+user@svr-1:~$ knlcli exec ipsec-basic srsim-1 "show version"
+TiMOS-C-25.10.R2 ...
+
+user@svr-1:~$ knlcli exec quickstart srl-1 "show version"
+...
+```
 
 ## Access a lab node via console command
 
