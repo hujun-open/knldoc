@@ -8,10 +8,24 @@ weight: 1
 # Overview
 **Following requirements must be met before installing KNL.**
 
+## Components installed by scripts (k3s)
+
+When using [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}) (`sudo ./scripts/setup-k3s.sh --install`), the following are installed automatically:
+
+- **Host / cluster:** k3s, local image registry (`registry:2`, NodePort `30500`), Helm, k9s, IPv6 forwarding
+- **KNL prerequisites:** cert-manager, KubeVirt (+ required feature gates and macvtap binding), CDI, Multus, containernetworking CNI plugins, k8slan
+- **KNL:** operator in `knl-system`, `knl-pvc` PVC, `knlcli`
+
+**Still required:** the host must be Linux/x86-64 with sufficient CPU, memory, and storage for your lab nodes; nested virtualization may be needed for VM-based node types; a storage class that supports PVCs is required (k3s `local-path` is used by default). See the sections below for details on each component when installing manually.
+
 ## k8s cluster
 KNL should work with all types of k8s cluster: bare-metal, VM or container based. the compute resource (cpu, memory and storage) requirement mostly depends on overall requirement of lab nodes running, these resource requirement could be specified in the `Lab` CR. 
 
 Certain KNL node types like `vsr`, `magc` requires CPU pinning and hugepage memory to performan optimally, which requires certain linux kernel settings on the k8s worker node. consult correspoding product documentation for details. 
+
+> [!NOTE]
+> **Scripts**  
+> Host and cluster constraints in this section still apply when using [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}) (OS, nested virtualization, admin access, etc.).
 
 > [!NOTE]
 > **Note 0**  
@@ -32,6 +46,10 @@ Certain KNL node types like `vsr`, `magc` requires CPU pinning and hugepage memo
 
 
 ## registry
+> [!NOTE]
+> **Scripts**  
+> Installed automatically when using [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}) (local registry on NodePort `30500`; omit with `--skip-registry`).
+
 Varies KNL node types require container image to run, and some of them like Nokia vSIM don't have offical registry, it is important to have access to a image registry access that new image could be uploaded.
 
 > [!TIPS]
@@ -39,9 +57,17 @@ Varies KNL node types require container image to run, and some of them like Noki
 > A guide to setup private registry could be found [here](https://distribution.github.io/distribution/)
 
 ## k8s cluster storage
+> [!NOTE]
+> **Scripts**  
+> Installed automatically when using [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}) (`knl-pvc` created with `local-path` by default; use `--storage-class` to change).
+
 A **cluster wide** [k8s StorageClass provisioner](https://kubernetes.io/docs/concepts/storage/storage-classes/) that supports filesystem volume like [NFS](https://github.com/kubernetes-sigs/nfs-subdir-external-provisioner) is required. 
 
 ## kubevirt
+> [!NOTE]
+> **Scripts**  
+> Installed and configured automatically when using [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}).
+
 KNL uses [kubevirt](https://kubevirt.io/) to support all VM node types like vSIM, VSR ..etc. so following kubevirt related software must be installed in the cluster:
 - [install kubevirt](https://kubevirt.io/user-guide/cluster_admin/installation/): 1.6.3+
 - [install kubevirt Containerized Data Importer](https://github.com/kubevirt/containerized-data-importer): 1.63.1+
@@ -61,14 +87,25 @@ Following [kubevirt feature gates](https://kubevirt.io/user-guide/cluster_admin/
 Register kubevirt macvtap binding plugin as described [here](https://kubevirt.io/user-guide/network/net_binding_plugins/macvtap/#macvtap-registration)
 
 ## multus
+> [!NOTE]
+> **Scripts**  
+> Installed automatically when using [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}).
+
 Install multus as described [here](https://github.com/k8snetworkplumbingwg/multus-cni)
 
 ## k8slan
+> [!NOTE]
+> **Scripts**  
+> Installed automatically when using [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}) (IPv6 forwarding is enabled on the host).
+
 k8slan provide unerlying connectity between lab nodes, read the [Prerequisites](https://github.com/hujun-open/k8slan#prerequisites) before [install](https://github.com/hujun-open/k8slan#installation-1).
 
 verion v0.0.7+
 
 ## CNI plugin
+> [!NOTE]
+> **Scripts**  
+> Installed automatically when using [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}).
 
 Following standard CNI plugin are required:
 - [bridge](https://www.cni.dev/plugins/current/main/bridge/)
@@ -78,8 +115,15 @@ Following standard CNI plugin are required:
 > install containernetworking cni plugins including bridge could be done via [CNI installer](https://github.com/hujun-open/installcni)
 
 ## Cert manager
+> [!NOTE]
+> **Scripts**  
+> Installed automatically when using [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}).
 
 [install cert-manager](https://cert-manager.io/docs/installation/)
 
 ## cdtool (optional)
+> [!NOTE]
+> **Scripts**  
+> Not installed by scripts.
+
 [cdtool](https://github.com/hujun-open/cdtool) is a tool that converts VM disk image into container disk image that KNL could use.

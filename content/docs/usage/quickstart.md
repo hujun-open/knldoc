@@ -10,7 +10,8 @@ This quickstart guide walks through steps of creating a simple lab, introduces s
 
 {{% steps %}}
 0. ## install KNL
-    Referes to the [Install KNL]({{< relref "docs/install/install/" >}})
+    - **Scripts:** [Install with scripts]({{< relref "docs/install/install/#install-with-scripts-k3s" >}}) — `sudo ./scripts/setup-k3s.sh --install` after cloning the [knl repo](https://github.com/hujun-open/knl).
+    - **Manual path:** see [Install KNL]({{< relref "docs/install/install/#manual-install" >}}).
 1. ## creates a `lab.yaml`
     This file defines a lab named `quickstart` contains two SRLinux nodes, using 25.10.1 release image.
     ```yaml
