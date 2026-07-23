@@ -20,6 +20,7 @@ Available Commands:
   console     connect to the console of specified node in the specified lab
   create      create a lab via the specified YAML file
   exec        run a command on the specified node and print output
+  export-disk export General VM disk to qcow2 file
   help        Help about any command
   rm          remove a lab
   shell       connect to the specified node in the specified lab
@@ -127,6 +128,38 @@ user@svr-1:~$ knlcli exec quickstart srl-1 "show version"
 
 ## Lab save/load
 see [Lab save/load]({{< relref "docs/usage/cfgmgmt/" >}})
+
+## Export General VM disk
+
+`knlcli export-disk <lab.yaml> <node> --worker <k8s-node> --host-dir <abs-dir> [-o <file.qcow2>] [--image <helper>]`
+
+Export the persistent disk of a General VM node to a qcow2 file on a **worker node's local filesystem**. The lab YAML resolves the lab name, namespace, and node type; the disk is read from the CDI PVC in the cluster (`{lab}-{node}`). A helper pod runs on `--worker`, converts with `qemu-img`, and writes the result into `--host-dir` via a `hostPath` mount (no stream through the API server).
+
+**Prerequisite:** the VMI must not be running. Typically remove the lab first (`knlcli rm <lab>`); the DataVolume/PVC remains after lab deletion. Choose a worker with enough **local** disk space for the output qcow2.
+
+```bash
+user@svr-1:~$ knlcli rm vm-example
+vm-example has been removed
+user@svr-1:~$ knlcli export-disk vm-example.yaml vm-debian \
+  --worker worker-1 --host-dir /data/knl-export -o vm-debian.qcow2
+2026/07/23 10:30:00 creating export helper pod knlcli-export-xxxxxxxx on worker worker-1
+2026/07/23 10:30:05 waiting for export helper pod knlcli-export-xxxxxxxx to run
+2026/07/23 10:30:10 converting disk to worker-1:/data/knl-export/vm-debian.qcow2 (progress from qemu-img -p)
+    (100.00/100%)
+2026/07/23 10:45:00 exported vm-debian disk to worker-1:/data/knl-export/vm-debian.qcow2 (10737418240 bytes)
+```
+
+Collect the file from the worker (for example with `scp` or by reading the path on that host):
+
+```bash
+user@svr-1:~$ scp worker-1:/data/knl-export/vm-debian.qcow2 .
+```
+
+- `--worker`: Kubernetes node name where the helper pod runs and where the file is written (`spec.nodeName`)
+- `--host-dir`: absolute directory on that worker; created if missing (`hostPath` `DirectoryOrCreate`); mounted at `/out` in the helper pod
+- `-o` / `--output`: output **filename** under `--host-dir` (default: `<node>.qcow2`)
+- `--image`: helper container image with `qemu-img` (default: `ghcr.io/hujun-open/knlcli-export:latest`)
+
 
 ## Show lab topology
 `knlcli topo <lab>` displays lab topology in following formats:
